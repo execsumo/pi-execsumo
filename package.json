@@ -8,7 +8,8 @@
       "./extensions/calm.ts",
       "./extensions/commands.ts",
       "./extensions/minimal-footer.ts"
-    ]
+    ],
+    "themes": ["./themes"]
   },
   "peerDependencies": {
     "@earendil-works/pi-coding-agent": "*",

@@ -8,6 +8,7 @@ Personal Pi extensions, kept in a Git repo so changes can be reviewed, committed
 - `extensions/commands.ts` — `/clear` and `/exit` aliases.
 - `extensions/minimal-footer.ts` — compact directory/model/usage/cost footer.
 - `extensions/lib/` — internal helpers used by Calm; do not load these directly.
+- `themes/catppuccin-quiet.json` — the package's custom TUI theme.
 
 ## Development
 
