@@ -1,0 +1,18 @@
+{
+  "name": "pi-execsumo",
+  "version": "0.1.0",
+  "description": "Execsumo's personal Pi extensions",
+  "keywords": ["pi-package"],
+  "pi": {
+    "extensions": [
+      "./extensions/calm.ts",
+      "./extensions/commands.ts",
+      "./extensions/minimal-footer.ts"
+    ]
+  },
+  "peerDependencies": {
+    "@earendil-works/pi-coding-agent": "*",
+    "@earendil-works/pi-tui": "*",
+    "typebox": "*"
+  }
+}
