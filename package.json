@@ -7,10 +7,29 @@
     "extensions": [
       "./extensions/calm.ts",
       "./extensions/commands.ts",
-      "./extensions/minimal-footer.ts"
+      "./extensions/minimal-footer.ts",
+      "./node_modules/@estebanforge/pi-codegraph-enhanced/extensions/codegraph.ts",
+      "./node_modules/@dietrichgebert/ponytail/pi-extension/index.js",
+      "./node_modules/@tintinweb/pi-subagents/src/index.ts",
+      "./node_modules/pi-blackhole/index.ts"
+    ],
+    "skills": [
+      "./node_modules/@dietrichgebert/ponytail/skills"
     ],
     "themes": ["./themes"]
   },
+  "dependencies": {
+    "@estebanforge/pi-codegraph-enhanced": "1.0.6",
+    "@dietrichgebert/ponytail": "4.10.0",
+    "@tintinweb/pi-subagents": "0.19.0",
+    "pi-blackhole": "0.5.5"
+  },
+  "bundledDependencies": [
+    "@estebanforge/pi-codegraph-enhanced",
+    "@dietrichgebert/ponytail",
+    "@tintinweb/pi-subagents",
+    "pi-blackhole"
+  ],
   "peerDependencies": {
     "@earendil-works/pi-coding-agent": "*",
     "@earendil-works/pi-tui": "*",
