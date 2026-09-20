@@ -3,13 +3,13 @@
 // Verified against Pi 0.81.1, 0.82.0, and 0.84.4, which expose built-in ToolDefinitions, per-slot
 // renderers, renderShell: "self", session_start replacement reasons, agent_start and
 // agent_settled, ExtensionUIContext.setToolsExpanded(), setWorkingVisible(),
-// setWorkingIndicator(), setWorkingMessage(), and setHiddenThinkingLabel().
+// setWorkingIndicator(), setWorkingMessage(), setHiddenThinkingLabel(), and
+// ToolExecutionComponent.render().
 // Pi's built-in working indicator owns the animated symbol and status line. Calm only
 // switches its message between thinking and working while suppressing transcript rows.
-// The collapsed-thinking presentation adapter probes the exact API it patches and
-// degrades independently with a
-// diagnostic (see installCalmPresentationAdapter below) if a future Pi removes it; Pi
-// still exposes no global renderer for arbitrary built-in or custom rows.
+// Each presentation adapter probes the exact API it patches and degrades independently
+// with a diagnostic (see installCalmPresentationAdapter below) if a future Pi removes it;
+// Pi still exposes no global renderer for arbitrary built-in or custom rows.
 // docs/configuration.md owns the home-local Calm preference contract.
 //
 // Pi has one first-registration-wins ToolDefinition per tool name, with no merge or
@@ -37,6 +37,7 @@ import type {
   ToolInfo,
   ToolRenderResultOptions,
 } from "@earendil-works/pi-coding-agent";
+import * as PiCodingAgent from "@earendil-works/pi-coding-agent";
 import {
   createBashToolDefinition,
   createEditToolDefinition,
@@ -111,6 +112,45 @@ const realpathOrSelf = (path: string): string => {
 };
 const extensionRealFile = realpathOrSelf(extensionFile);
 
+// CodeGraph tools are custom tools without renderers. Their default rows are rendered by
+// one shared component, so hide only the codegraph_* rows there instead of claiming their
+// names and having to duplicate/delegate CodeGraph execution.
+type CalmCodeGraphToolPatch = {
+  hides: () => boolean;
+};
+const CALM_CODEGRAPH_TOOL_PATCH = Symbol.for("firstmate:calm-codegraph-tool:pi-0.84.4");
+
+function installCalmCodeGraphToolVisibility(): void {
+  const registry = globalThis as typeof globalThis & {
+    [key: symbol]: CalmCodeGraphToolPatch | undefined;
+  };
+  const hides = (): boolean => calmPresentationHides();
+  const installed = registry[CALM_CODEGRAPH_TOOL_PATCH];
+  if (installed) {
+    installed.hides = hides;
+    return;
+  }
+
+  const ToolExecutionComponent = PiCodingAgent.ToolExecutionComponent;
+  if (typeof ToolExecutionComponent !== "function") {
+    throw new Error("Firstmate Calm requires Pi ToolExecutionComponent");
+  }
+  const originalRender = ToolExecutionComponent.prototype.render;
+  if (typeof originalRender !== "function") {
+    throw new Error("Firstmate Calm requires Pi ToolExecutionComponent.render");
+  }
+
+  const patch: CalmCodeGraphToolPatch = { hides };
+  ToolExecutionComponent.prototype.render = function (width: number): string[] {
+    const toolName = (this as unknown as { toolName?: unknown }).toolName;
+    if (typeof toolName === "string" && toolName.startsWith("codegraph_") && patch.hides()) {
+      return [];
+    }
+    return originalRender.call(this, width);
+  };
+  registry[CALM_CODEGRAPH_TOOL_PATCH] = patch;
+}
+
 // Each presentation adapter probes the exact Pi API it patches. If a future Pi removes
 // that API, only the affected adapter degrades; the rest of Calm keeps working.
 function installCalmPresentationAdapter(name: string, install: () => void): void {
@@ -123,6 +163,7 @@ function installCalmPresentationAdapter(name: string, install: () => void): void
 }
 
 export default function (pi: ExtensionAPI) {
+  installCalmPresentationAdapter("codegraph-tools", installCalmCodeGraphToolVisibility);
   installCalmPresentationAdapter("collapsed-thinking", installCalmAssistantLayout);
 
   let exportRendering = false;
