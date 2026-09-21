@@ -37,7 +37,7 @@ Calm's preference defaults to `~/.pi/config/calm` and is not stored in this repo
 Install the Git repository as a Pi package after cloning or publishing it:
 
 ```bash
-pi install git:github.com/OWNER/pi-execsumo@v0.1.0
+pi install git:github.com/execsumo/pi-execsumo@v0.1.0
 ```
 
 Use a release tag for reproducible installs; use `pi update --extensions` to reconcile installed packages.
