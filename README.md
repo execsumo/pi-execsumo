@@ -4,10 +4,8 @@ Personal Pi extensions, kept in a Git repo so changes can be reviewed, committed
 
 ## Contents
 
-- `extensions/calm.ts` — `/calm` conversation-only presentation toggle.
 - `extensions/commands.ts` — `/clear` and `/exit` aliases.
 - `extensions/minimal-footer.ts` — compact directory/model/usage/cost footer.
-- `extensions/lib/` — internal helpers used by Calm; do not load these directly.
 - `themes/catppuccin-quiet.json` — the package's custom TUI theme.
 
 ## Development
@@ -27,10 +25,6 @@ git diff
 ```
 
 Commit and push changes when ready. The package version starts at `0.1.0`.
-
-## Configuration
-
-Calm's preference defaults to `~/.pi/config/calm` and is not stored in this repository. `FM_HOME`, `FM_ROOT_OVERRIDE`, and `FM_CONFIG_OVERRIDE` can override the Firstmate-compatible locations when needed.
 
 ## Installation on another device
 
