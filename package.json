@@ -11,31 +11,22 @@
       "./extensions/minimal-footer.ts",
       "./node_modules/pi-compact-tools/extensions/compact-tools.ts",
       "./node_modules/@estebanforge/pi-codegraph-enhanced/extensions/codegraph.ts",
-      "./node_modules/@dietrichgebert/ponytail/pi-extension/index.js",
       "./node_modules/@tintinweb/pi-subagents/src/index.ts",
-      "./node_modules/pi-blackhole/index.ts",
       "./node_modules/@narumitw/pi-goal/dist/index.ts"
-    ],
-    "skills": [
-      "./node_modules/@dietrichgebert/ponytail/skills"
     ],
     "themes": [
       "./themes"
     ]
   },
   "dependencies": {
-    "@dietrichgebert/ponytail": "4.10.0",
     "@estebanforge/pi-codegraph-enhanced": "1.0.6",
     "@narumitw/pi-goal": "0.54.8",
     "@tintinweb/pi-subagents": "0.19.0",
-    "pi-blackhole": "0.5.5",
     "pi-compact-tools": "^0.13.2"
   },
   "bundledDependencies": [
     "@estebanforge/pi-codegraph-enhanced",
-    "@dietrichgebert/ponytail",
     "@tintinweb/pi-subagents",
-    "pi-blackhole",
     "@narumitw/pi-goal",
     "pi-compact-tools"
   ],
@@ -48,9 +39,7 @@
   },
   "bundleDependencies": [
     "@estebanforge/pi-codegraph-enhanced",
-    "@dietrichgebert/ponytail",
     "@tintinweb/pi-subagents",
-    "pi-blackhole",
     "@narumitw/pi-goal",
     "pi-compact-tools"
   ]
